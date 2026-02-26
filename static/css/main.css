@@ -1,0 +1,39 @@
+body {
+    background-color: rgb(243, 243, 243);
+}
+a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #c5a059;
+    text-transform: italic;
+    transition: 0.3s;
+    margin-right: 15px;
+}
+
+a:hover {
+    color: #613271;
+    text-shadow: 0 0 10px #aa59c5;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    margin-bottom: 30px;
+}
+
+th {
+    font-family: 'Cinzel', serif;
+    color: #c5a059;
+    text-transform: uppercase;
+    border-bottom: 2px solid #c5a059;
+    padding: 10px;
+}
+
+td {
+    background: #c59f59b8;
+    padding: 15px;
+    border-top: 1px solid #4a1a1a;
+    border-bottom: 1px solid #4a1a1a;
+}

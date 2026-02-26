@@ -1,0 +1,39 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otchot - {{ project.name }}</title>
+    <style>
+        body { font-family: sans-serif;}
+        table { width: 100%; border-collapse: collapse;}
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .total { font-weight: bold; font-size: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Proekt: {{ project.name }}</h1>
+    <p>Client: {{ project.client_name }} </p>
+    <hr>
+    <table>
+        <thead>
+            <tr>
+                <th>Mahsulot</th>
+                <th>Miqdori</th>
+                <th>Narxi</th>
+                <th>Jami</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in project.items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.unit_price }} so'm</td>
+                <td>{{ item.total() }} so'm</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p class="total">Umumiy summa: {{ project.total_price() }} so'm</p>
+</body>
+</html>

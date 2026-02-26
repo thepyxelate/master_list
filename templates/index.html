@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block head %}
+<h1>Master list</h1>
+{% endblock %}
+
+{% block body%}
+    <a href="{{ url_for('add_project') }}" style="display: block; margin-bottom: 20px;">
+         + Yangi Proekt qo'shish
+        </a>
+    {% for project in projects %}
+        <div class="project-card">
+            <h3><a href="{{ url_for('project_detail', project_id=project.id) }}">
+                {{ project.name}}
+            </a></h3>
+        <p>Client: {{ project.client_name }}</p>
+
+        <p> Ummumiy summa: {{ project.total_price() }}so'm 
+             <a href="{{ url_for('delete_project', project_id = project.id) }}"
+                onclick="return confirm('Rostdan ham ochirmoqchimisiz?')">
+                ❌
+            </a>
+        </p>
+       
+        <hr>
+        </div>
+    {% else %}
+        <p>Hozircha Proektlar yo'q , Knopka orqali qo'shing</p>
+    {% endfor %}
+{% endblock %}

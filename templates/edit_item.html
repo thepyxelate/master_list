@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container">
+    <h2>✏️ Mahsulotni tahrirlash</h2>
+    <p>Proekt: <strong>{{ item.project.name }}</strong> </p>
+    <hr>
+
+    <div class="form-container">
+        <form method="POST">
+            <div class="form-group">
+                <label>Mahsulot nomi:</label>
+                <input type="text" name="name" value="{{ item.name }}" class="form-control" required> 
+            </div>
+
+            <div class="form-group">
+                <label >Miqdori:</label>
+                <input type="number" name="quantity" value="{{ item.quantity | float}}" class="form-control" required >
+            </div>
+
+            <div class="form-group">
+                <label >Narxi (so'm):</label>
+                <input type="number" step="0.01" name="unit_price" value="{{ item.unit_price }}" class="form-control" required >
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-save">O'zgarishlarni saqlash</button>
+                <a href="{{ url_for('project_detail', project_id=item.project_id) }}" class="btn btn-cancel">Bekor qilish</a>
+            </div> 
+        </form>
+    </div>
+</div>
+{% endblock %}
