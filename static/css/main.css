@@ -1,13 +1,18 @@
+/* Google Fonts'dan shriftni ulab olamiz */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;600&display=swap');
+
 body {
     background-color: rgb(243, 243, 243);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 15px;
 }
+
 a {
     text-decoration: none;
     font-weight: bold;
     color: #c5a059;
-    text-transform: italic;
     transition: 0.3s;
-    margin-right: 15px;
 }
 
 a:hover {
@@ -15,25 +20,42 @@ a:hover {
     text-shadow: 0 0 10px #aa59c5;
 }
 
-
-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 10px;
-    margin-bottom: 30px;
+/* Loyihalar ro'yxati konteyneri */
+.projects-container {
+    display: flex;
+    flex-direction: column; /* Telefonda ustma-ust */
+    gap: 15px;
+    margin-top: 20px;
 }
 
-th {
-    font-family: 'Cinzel', serif;
-    color: #c5a059;
-    text-transform: uppercase;
-    border-bottom: 2px solid #c5a059;
-    padding: 10px;
-}
-
-td {
+/* Har bir loyiha kartasi (Jadval o'rniga) */
+.project-card {
     background: #c59f59b8;
-    padding: 15px;
+    padding: 20px;
     border-top: 1px solid #4a1a1a;
     border-bottom: 1px solid #4a1a1a;
+    border-radius: 8px; /* Biroz yumshatish */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.project-card:hover {
+    transform: scale(1.02);
+}
+
+.project-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: #4a1a1a;
+    text-transform: uppercase;
+}
+
+/* Kompyuter ekranlari uchun (Katta ekranlar) */
+@media (min-width: 768px) {
+    .projects-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Yonma-yon chiqish */
+    }
 }

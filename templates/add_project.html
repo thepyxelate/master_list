@@ -1,10 +1,39 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<h2>Yangi loyiha qo'shish</h2>
-<form method="POST">
-    <input type="text" name="name" placeholder="Proekt nomi" required>
-    <input type="text" name="client_name" placeholder="Client nomie">
-    <button type="submit" >Soxranit</button>
-</form>
+<div class="form-container">
+    <h2 style="font-family: 'Cinzel', serif; color: #c5a059; text-align: center;">YANGI LOYIHA</h2>
+    
+    <form method="POST" class="samurai-form">
+        <div class="input-group">
+            <label>Loyiha nomi:</label>
+            <input type="text" name="name" placeholder="Masalan: Oshxona remonti" required>
+        </div>
+        
+        <div class="input-group">
+            <label>Mijoz ismi:</label>
+            <input type="text" name="client_name" placeholder="Masalan: Joshua Bell">
+        </div>
+        
+        <button type="submit" class="save-btn">SAQLASH (SOXRANIT)</button>
+        <a href="{{ url_for('home') }}" class="back-link">🔙 BEKOR QILISH</a>
+    </form>
+</div>
+
+<style>
+    .form-container { max-width: 500px; margin: 40px auto; padding: 20px; }
+    .samurai-form { display: flex; flex-direction: column; gap: 20px; }
+    .input-group { display: flex; flex-direction: column; gap: 5px; }
+    .input-group input { 
+        padding: 12px; 
+        border: 1px solid #c5a059; 
+        border-radius: 5px; 
+        background: #fff;
+    }
+    .save-btn { 
+        background: #4a1a1a; color: #c5a059; padding: 15px; 
+        border: none; border-radius: 5px; font-weight: bold; cursor: pointer;
+    }
+    .back-link { text-align: center; color: #888; font-size: 0.9rem; text-decoration: none; }
+</style>
 {% endblock %}

@@ -1,29 +1,103 @@
 {% extends 'base.html' %}
+
 {% block head %}
-<h1>Master list</h1>
+<h1 style="font-family: 'Cinzel', serif; color: #c5a059; text-align: center; margin-bottom: 30px;">
+    MASTER LIST
+</h1>
 {% endblock %}
 
-{% block body%}
-    <a href="{{ url_for('add_project') }}" style="display: block; margin-bottom: 20px;">
-         + Yangi Proekt qo'shish
-        </a>
-    {% for project in projects %}
-        <div class="project-card">
-            <h3><a href="{{ url_for('project_detail', project_id=project.id) }}">
-                {{ project.name}}
-            </a></h3>
-        <p>Client: {{ project.client_name }}</p>
+{% block body %}
+    <a href="{{ url_for('add_project') }}" class="add-btn">
+        + YANGI PROEKT QO'SHISH
+    </a>
 
-        <p> Ummumiy summa: {{ project.total_price() }}so'm 
-             <a href="{{ url_for('delete_project', project_id = project.id) }}"
-                onclick="return confirm('Rostdan ham ochirmoqchimisiz?')">
-                ❌
-            </a>
-        </p>
-       
-        <hr>
-        </div>
-    {% else %}
-        <p>Hozircha Proektlar yo'q , Knopka orqali qo'shing</p>
-    {% endfor %}
+    <div class="projects-container">
+        {% for project in projects %}
+            <div class="project-card">
+                <div class="card-header">
+                    <h3>
+                        <a href="{{ url_for('project_detail', project_id=project.id) }}">
+                            {{ project.name }}
+                        </a>
+                    </h3>
+                    <a href="{{ url_for('delete_project', project_id=project.id) }}" 
+                       class="delete-icon" 
+                       onclick="return confirm('Rostdan ham o\'chirmoqchimisiz?')">
+                        ❌
+                    </a>
+                </div>
+
+                <div class="card-body">
+                    <p><strong>Mijoz:</strong> {{ project.client_name }}</p>
+                    <p><strong>Umumiy summa:</strong> <span>{{ project.total_price() }} so'm</span></p>
+                </div>
+            </div>
+        {% else %}
+            <p style="text-align: center; color: #888; font-style: italic; margin-top: 50px;">
+                Hozircha proektlar yo'q, yuqoridagi tugma orqali qo'shing.
+            </p>
+        {% endfor %}
+    </div>
+
+<style>
+    /* Telefon uchun maxsus qo'shimcha dizayn */
+    .add-btn {
+        display: block; 
+        background: #4a1a1a; 
+        color: #c5a059 !important; 
+        text-align: center; 
+        padding: 15px; 
+        text-decoration: none; 
+        font-family: 'Cinzel', serif;
+        font-weight: bold;
+        border-radius: 5px;
+        margin-bottom: 25px;
+    }
+
+    .projects-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .project-card {
+        background: #c59f59b8;
+        border: 1px solid #4a1a1a;
+        padding: 15px;
+        border-radius: 8px;
+        position: relative;
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(74, 26, 26, 0.2);
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+    }
+
+    .card-header h3 {
+        margin: 0;
+        font-family: 'Cinzel', serif;
+        font-size: 1.2rem;
+    }
+
+    .card-header h3 a {
+        color: #4a1a1a !important;
+    }
+
+    .delete-icon {
+        font-size: 0.9rem;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 5px;
+        border-radius: 50%;
+        text-decoration: none;
+    }
+
+    .card-body p {
+        margin: 5px 0;
+        color: #2c3e50;
+    }
+</style>
 {% endblock %}

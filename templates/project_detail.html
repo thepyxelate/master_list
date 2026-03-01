@@ -1,69 +1,95 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <h1>Proekt: {{ project.name }}</h1>
-    <p>Client: {{ project.client_name }}</p>
-    <hr>
+<div class="detail-container">
+    <h1 style="font-family: 'Cinzel', serif; color: #4a1a1a; margin-bottom: 5px;">{{ project.name }}</h1>
+    <p style="color: #c5a059; font-weight: bold; margin-bottom: 25px;">👤 MIJOZ: {{ project.client_name }}</p>
 
-    <h3>Mahsulot ro'yxati:</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Nomi</th>
-                <th>Miqdori</th>
-                <th>Narxi</th>
-                <th>Jami</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in project.items %}
-            <tr>
-                <td>{{ item.name }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.unit_price }}so'm</td>
-                <td>{{ item.total() }}so'm</td>
-                <td>
-                
+    <div class="table-wrapper">
+        <table class="samurai-table">
+            <thead>
+                <tr>
+                    <th>Nomi</th>
+                    <th>Miqdor</th>
+                    <th>Narx</th>
+                    <th>Jami</th>
+                    <th>Harakat</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in project.items %}
+                <tr>
+                    <td data-label="Nomi">{{ item.name }}</td>
+                    <td data-label="Miqdori">{{ item.quantity }}</td>
+                    <td data-label="Narxi">{{ item.unit_price }}</td>
+                    <td data-label="Jami">{{ item.total() }}</td>
+                    <td data-label="Harakat">
+                        <a href="{{ url_for('edit_item', item_id=item.id) }}">✏️</a>
+                        <a href="{{ url_for('delete_item', item_id=item.id) }}" onclick="return confirm('Ochirilsinmi?')">❌</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" style="text-align: center; font-style: italic;">Hozircha mahsulot yo'q</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-                <a href="{{ url_for('edit_item', item_id = item.id) }}">✏️</a>
-                <a href="{{ url_for('delete_item', item_id = item.id) }}"
-                onclick="return confirm('Rostdan ham ochirmoqchimisiz?')">
-                ❌
-            </a>
-            </td>
-            </tr>
+    <div class="total-bar">
+        UMUMIY HISOB: {{ "{:,.0f}".format(project.total_price()) }} so'm
+    </div>
 
-            
-            {% else %}
-            <tr>
-                <td> Hozircha Mahsulot Qo'shilmagan</td>
-            </tr>
+    <div class="action-buttons">
+        <a href="{{ url_for('home') }}" class="btn-secondary">🔙 ORQAGA</a>
+        <a href="{{ url_for('export_pdf', project_id=project.id) }}" target="_blank" class="btn-pdf">📄 PDF YUKLASH</a>
+    </div>
 
-            {% endfor %}
-            
-        </tbody>
-    </table>
+    <hr style="margin: 40px 0; border: 0; border-top: 1px solid #c5a059;">
 
-    <h4>Ummumiy hisob: {{ project.total_price() }} so'm</h4>
+    <div class="add-item-box">
+        <h3>Yangi Mahsulot Qo'shish</h3>
+        <form action="{{ url_for('add_item', project_id=project.id) }}" method="POST" class="inline-form">
+            <input type="text" name="name" placeholder="Nomi" required>
+            <input type="number" step="0.01" name="quantity" placeholder="Miqdori" required>
+            <input type="number" step="0.01" name="unit_price" placeholder="Narxi" required>
+            <button type="submit">QO'SHISH</button>
+        </form>
+    </div>
+</div>
 
-    <hr>
-
-    <h3>Yangi Mahsulot Qo'shish</h3>
-    <form action="{{ url_for('add_item', project_id=project.id) }}" method="POST">
-        <input type="text" name="name" placeholder="Mahsulot nomi" required>
-        <input type="number" step="0.01" name="quantity" placeholder="Miqdori" required >
-        <input type="number" step="0.01" name="unit_price" placeholder="Narxi" required >
-        <button type="submit">Qo'shish</button>
-    </form>
-
-
-     <a href="{{ url_for('home') }}">🔙 Orqaga</a>
-
-    <a href="{{ url_for('export_pdf', project_id=project.id) }}" target="_blank">
-        📄 PDF yuklab olish
-    </a>
+<style>
+    .detail-container { max-width: 1000px; margin: 0 auto; padding: 10px; }
     
-   
+    /* Mobil uchun jadvalni suriladigan qilish */
+    .table-wrapper { overflow-x: auto; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .samurai-table { width: 100%; border-collapse: collapse; min-width: 500px; }
+    .samurai-table th { background: #4a1a1a; color: #c5a059; padding: 12px; text-align: left; }
+    .samurai-table td { padding: 12px; border-bottom: 1px solid #eee; }
+    
+    .total-bar { 
+        background: #c5a059; color: #4a1a1a; padding: 20px; 
+        text-align: right; font-size: 1.2rem; font-weight: bold; 
+        margin-top: 20px; border-radius: 8px;
+    }
 
+    .action-buttons { display: flex; gap: 10px; margin-top: 20px; }
+    .btn-secondary, .btn-pdf { 
+        flex: 1; text-align: center; padding: 12px; border-radius: 5px; 
+        text-decoration: none; font-weight: bold;
+    }
+    .btn-secondary { background: #eee; color: #333; }
+    .btn-pdf { background: #2d8a4e; color: white; }
 
+    .add-item-box { background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px dashed #c5a059; }
+    .inline-form { display: flex; flex-direction: column; gap: 10px; }
+    .inline-form input { padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+    .inline-form button { background: #4a1a1a; color: #c5a059; border: none; padding: 12px; cursor: pointer; font-weight: bold; }
+
+    @media (min-width: 768px) {
+        .inline-form { flex-direction: row; }
+        .inline-form input { flex: 1; }
+    }
+</style>
 {% endblock %}
