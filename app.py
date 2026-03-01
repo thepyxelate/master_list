@@ -1,5 +1,8 @@
 from flask import Flask, flash, render_template, request, redirect, url_for, make_response
 from flask_sqlalchemy import SQLAlchemy
+
+#pdf
+import platform
 import pdfkit
 
 # baroi LOGIN
@@ -215,6 +218,7 @@ def logout():
 
 
 
+
 # PDF-kit
 @app.route('/project/<int:project_id>/pdf')
 def export_pdf(project_id):
@@ -223,17 +227,30 @@ def export_pdf(project_id):
     # baroi PDF prostoycha HTML tayyor mukunem
     rendered = render_template('project_pdf.html', project=project)
 
-    #wkhtmltopdf programmesha adressash
-    path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
-
+    #agar windows boshad(Lokal komp)
+    if platform.system() =='Windows':
+        path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+        config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+    else:
+        # Agar Linux boshad (Pythonanywhere)
+        config = pdfkit.configuration()
+    
+    # baroi (harfoi sh ch o' darkor)
+    options = {
+        'encoding': "UTF-8",
+        'no-outline': None,
+        'quiet': ''
+    }
     # a HTML PDF soxtan
-    pdf = pdfkit.from_string(rendered, False, configuration=config)
+    try:
+        pdf = pdfkit.from_string(rendered, False, configuration=config)
+    except Exception as e:
+        return f"PDF yaratishda xato: {str(e)}"
 
     # Brauzerba pdf file kada fursondan
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = f'inline; filename=otchot_{project_id}.pdf'
+    response.headers['Content-Disposition'] = f'inline; filename=otchot_{project.name}.pdf'
     
     return response
 
