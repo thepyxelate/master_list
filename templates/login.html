@@ -1,25 +1,115 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<div class="login-container" style="max-width: 400px; margin: 50px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; ">
-    <h2>Tizimga kirish</h2>
-    <form method="POST">
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" name="username" class="form-control" required>
+<div class="login-wrapper">
+    <div class="samurai-card">
+        <h2 class="form-title">TIZIMGA KIRISH</h2>
+        
+        <form method="POST">
+            <div class="input-group">
+                <label for="username">Foydalanuvchi nomi (Username)</label>
+                <input type="text" name="username" id="username" placeholder="Loginni yozing..." required>
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Maxfiy parol</label>
+                <input type="password" name="password" id="password" placeholder="Parolni yozing..." required>
+            </div>
+            
+            <button type="submit" class="btn-samurai">KIRISH 🏯</button>
+        </form>
+
+        <div class="form-footer">
+            <p>Hali ro'yxatdan o'tmaganmisiz? <a href="{{ url_for('register') }}">Yangi hisob ochish</a></p>
         </div>
-        <div class="form-group" style="margin-top: 15px;">
-            <label for="password">Parol:</label>
-            <input type="password" name="password" class="form-control" required>
-        </div>
-        <button type="submit" class="btn btn-primary" style="margin-top: 20px; width: 100%;">kirish</button>
-    </form>
-    {% with messages = get_flashed_messages() %}
-     {% if messages %}
-      {% for message in messages %}
-       <p style="color: red; margin-top: 10px;">{{ message }}</p>
-       {% endfor %}
-     {% endif %}
-    {% endwith %}
+    </div>
 </div>
+
+<style>
+    /* Login sahifasi uchun maxsus CSS */
+    .login-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 70vh;
+    }
+
+    .samurai-card {
+        background: #fff;
+        width: 100%;
+        max-width: 400px;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        border-top: 5px solid #4a1a1a; /* To'q qizil urg'u */
+    }
+
+    .form-title {
+        font-family: 'Cinzel', serif;
+        color: #4a1a1a;
+        text-align: center;
+        margin-bottom: 30px;
+        letter-spacing: 2px;
+    }
+
+    .input-group {
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .input-group label {
+        font-size: 0.9rem;
+        color: #666;
+        font-weight: 600;
+    }
+
+    .input-group input {
+        padding: 12px 15px;
+        border: 1px solid #c5a059; /* Tilla rang border */
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .input-group input:focus {
+        outline: none;
+        border-color: #4a1a1a;
+        box-shadow: 0 0 8px rgba(197, 160, 89, 0.3);
+    }
+
+    .btn-samurai {
+        background: #4a1a1a;
+        color: #c5a059;
+        border: none;
+        padding: 14px;
+        width: 100%;
+        border-radius: 6px;
+        font-family: 'Cinzel', serif;
+        font-weight: bold;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 10px;
+    }
+
+    .btn-samurai:hover {
+        background: #331212;
+        transform: translateY(-2px);
+    }
+
+    .form-footer {
+        margin-top: 25px;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #888;
+    }
+
+    .form-footer a {
+        color: #4a1a1a;
+        font-weight: bold;
+        text-decoration: none;
+    }
+</style>
 {% endblock %}

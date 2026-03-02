@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div style="max-width: 400px; margin: 60px auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top: 5px solid #2d8a4e;">
+    <h2 style="font-family: 'Cinzel', serif; color: #4a1a1a; text-align: center;">RO'YXATDAN O'TISH</h2>
+    
+    <form method="POST" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+        <input type="text" name="username" placeholder="Yangi Login" required 
+               style="padding: 12px; border: 1px solid #c5a059; border-radius: 5px;">
+        
+        <input type="password" name="password" placeholder="Yangi Parol" required 
+               style="padding: 12px; border: 1px solid #c5a059; border-radius: 5px;">
+        
+        <button type="submit" 
+                style="background: #2d8a4e; color: white; padding: 12px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">
+            HISOB YARATISH
+        </button>
+    </form>
+    
+    <p style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
+        Accountingiz bormi? <a href="{{ url_for('login') }}" style="color: #4a1a1a; font-weight: bold;">Kirish</a>
+    </p>
+</div>
+{% endblock %}

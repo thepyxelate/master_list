@@ -99,6 +99,9 @@ def add_project():
 def project_detail(project_id):
     # project_id kadi a baza proetkta yoftan
     project = Project.query.get_or_404(project_id)
+
+    if project.user_id != current_user.id:
+        return 'Bu proektni korishga ruxsat kerak ', 403
     return render_template('project_detail.html', project=project)
 
 @app.route('/add_item/<int:project_id>', methods = ['POST'])
@@ -210,11 +213,36 @@ def login():
 
     return render_template('login.html')
 
+# LOGOUT
+
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+
+@app.route('/registe', methods = ['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        # Foydalanuvchi hastmi nestmi teskshiri mukunem
+        user_exists = User.query.filter_by(username=username).first()
+        if user_exists:
+            return "Bu login band, iltimos boshqa tanland"
+        
+        # Parola shifr kada soxranit kadan
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+        new_user = User(username=username, password=hashed_password)
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        return redirect(url_for('login'))
+    
+    return render_template('register.html')
 
 
 

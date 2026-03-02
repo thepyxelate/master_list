@@ -3,12 +3,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }} ">
-    <title>Monument</title>
+    <title>Master list</title>
     {% block head %}
 
     {% endblock %}
 </head>
 <body>
+    {% if request.endpoint not in ['login', 'register'] %}
+    <nav style="padding: 10px 15px; display: flex; justify-content: flex-end; align-items: center; border-bottom: 1px solid #eee; background-color: #fdfdfd00;">
+        
+        <div style="display: flex; align-items: center; gap: 15px;">
+            {% if current_user.is_authenticated %}
+                <span style="color: #666; font-size: 0.85rem; font-weight: 400;">
+                    👤 {{ current_user.username }}
+                </span>
+                
+                <a href="{{ url_for('logout') }}" style="color: #4a1a1a; text-decoration: none; font-size: 0.85rem; font-weight: 600; border-left: 1px solid #ddd; padding-left: 15px;">
+                    CHIQISH
+                </a>
+            {% endif %}
+        </div>
+    </nav>
+    {% endif %}
+
+    <div style="max-width: 800px; margin: 10px auto; padding: 0 15px;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    </div>
     {% block body %}
 
     {% endblock %}
