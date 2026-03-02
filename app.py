@@ -181,7 +181,7 @@ login_manager.login_view = 'login' # Login nakadagi boshad, gijoba fursondan
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
-    password_hash = db.Column(db.String(120))
+    password_hash = db.Column(db.String(150), nullable=False)
 
     #User ki Projecta miyoneshba budagi connect
     projects = db.relationship('Project', backref='owner', lazy=True)
@@ -221,8 +221,8 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-
-@app.route('/registe', methods = ['GET', 'POST'])
+# REGISTER
+@app.route('/register', methods = ['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form.get('username')
@@ -235,7 +235,7 @@ def register():
         
         # Parola shifr kada soxranit kadan
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-        new_user = User(username=username, password=hashed_password)
+        new_user = User(username=username, password_hash=hashed_password)
 
         db.session.add(new_user)
         db.session.commit()
